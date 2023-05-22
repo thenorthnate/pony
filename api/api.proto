@@ -1,0 +1,38 @@
+// Pony API Definition
+
+syntax = "proto3";
+option go_package = "github.com/thenorthnate/pony/api";
+
+package api;
+
+service Pubsub {
+    // Publish publishes a message to the Pony server with the given routing key
+    rpc Publish(stream Note) returns (Note) {}
+    // Subscribe subscribes to the routing key given in the note
+    rpc Subscribe(Note) returns (stream Note) {}
+}
+
+message Note {
+    // Version defines the version of Pony that should be used for this message
+    // Pony is backwards compatible, but a message that declares a later version
+    // than the version used by the server may not be delivered
+    string version = 1;
+    // CreatedTime is set by most clients and defines the time the message was
+    // created by the client
+    string created_time = 2;
+    // Type TBD
+    string type = 3;
+    // Source is the name of the application/service sending the message
+    string source = 4;
+    // Id is a user-defined value that will be tracked with the message as it
+    // flows through Pony; it can be helpful for tracing purposes
+    string id = 5;
+    // Credentials allows basic authentication for a client with the Pony server
+    string credentials = 6;
+    // DataContentType defines the type of data contained within the Data field
+    string data_content_type = 7;
+    // RoutingKey defines how the messages should get routed
+    string routing_key = 8;
+    // Data contains the data to be moved
+    bytes data = 9;
+}
