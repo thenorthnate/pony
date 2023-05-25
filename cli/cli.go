@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	"github.com/thenorthnate/pony/gen/github.com/thenorthnate/pony/api"
+	"github.com/thenorthnate/pony/pkg/api"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

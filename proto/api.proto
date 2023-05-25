@@ -1,7 +1,7 @@
 // Pony API Definition
 
 syntax = "proto3";
-option go_package = "github.com/thenorthnate/pony/api";
+option go_package = "./api";
 
 package api;
 
@@ -17,9 +17,10 @@ message Note {
     // Pony is backwards compatible, but a message that declares a later version
     // than the version used by the server may not be delivered
     string version = 1;
-    // CreatedTime is set by most clients and defines the time the message was
-    // created by the client
-    string created_time = 2;
+    // ArrivedTime is the time the message arrived at the server - it is safe to
+    // set this value in the client, but it will be overridden by the server
+    // once it arrives there (purpose is to be used by a subscriber client)
+    string arrived_time = 2;
     // Type TBD
     string type = 3;
     // Source is the name of the application/service sending the message
