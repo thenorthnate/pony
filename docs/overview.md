@@ -2,7 +2,7 @@
 
 Pony - named after the pony express.
 
-Clients connect via streaming gRPC connection
+Clients connect via REST - dead simple.
 
 Multi-instance cluster (high uptime)
 
