@@ -12,6 +12,7 @@ import (
 
 type app struct {
 	logs *slog.Logger
+	db   Database
 }
 
 func newApp() *app {
