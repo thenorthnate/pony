@@ -1,4 +1,4 @@
-package serve
+package pony
 
 import (
 	"context"
@@ -8,34 +8,13 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-
-	"github.com/thenorthnate/buzz"
-	"github.com/thenorthnate/pony/pkg/aol"
 )
-
-const (
-	defaultAddr = ""
-	defaultPort = "8080"
-)
-
-func Launch() {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	app := getApp()
-	messages := make(chan []byte, 1)
-	hive := buzz.New()
-	hive.Submit(aol.GetWorker(app.logs, messages))
-	s := app.getServer(ctx)
-	if err := s.ListenAndServe(); err != nil {
-		app.logs.Error("server shutdown with an error", slog.String("err", err.Error()))
-	}
-}
 
 type app struct {
 	logs *slog.Logger
 }
 
-func getApp() *app {
+func newApp() *app {
 	return &app{
 		logs: getLogger(),
 	}
@@ -65,8 +44,6 @@ func getLogger() *slog.Logger {
 }
 
 func (a *app) getServer(ctx context.Context) *http.Server {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/v1/subscribe", a.subscribe)
 	ponyAddr := os.Getenv("PONY_ADDR")
 	if ponyAddr == "" {
 		ponyAddr = defaultAddr
@@ -85,7 +62,7 @@ func (a *app) getServer(ctx context.Context) *http.Server {
 			return ctx
 		},
 		Addr:    net.JoinHostPort(ponyAddr, ponyPort),
-		Handler: mux,
+		Handler: a.createViews(),
 	}
 	return s
 }

@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  postgres:
+    image: "postgres:16.2-alpine3.19"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    # https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+    image: "dpage/pgadmin4:8.4"
+    ports:
+      - 8000:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pony@pony.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_ADDRESS=0.0.0.0
+
+  pony:
+    build: .
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:

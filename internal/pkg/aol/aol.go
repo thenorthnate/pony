@@ -8,6 +8,7 @@ import (
 	"github.com/thenorthnate/evs"
 )
 
+// AOL implements an append-only-log.
 type AOL struct {
 	logs     *slog.Logger
 	messages chan []byte

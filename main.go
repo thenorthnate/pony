@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/thenorthnate/pony/pkg/serve"
+	pony "github.com/thenorthnate/pony/internal"
 )
 
 func main() {
-	serve.Launch()
+	pony.Launch()
 }
